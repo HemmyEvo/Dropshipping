@@ -43,6 +43,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 :root {
+  --font-integralCF :"Integral CF",sans-serif;
   --radius: 0.65rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -112,11 +113,26 @@
 }
 
 @layer base {
+  .font-integral {
+    font-family: var(--font-integralCF);
+  }
+  
+  /* You can also create specific utility classes for different weights if available */
+  .font-integral-semibold {
+    font-family: var(--font-integralCF);
+    font-weight: 400;
+  }
+  .font-integral-bold {
+    font-family: var(--font-integralCF);
+    font-weight: 700;
+  }
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    
+    
   }
 }
    @layer utilities {

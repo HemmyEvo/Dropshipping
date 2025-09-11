@@ -1,12 +1,17 @@
 'use client'
 import { APP_NAME } from '@/lib/constants'
 import {  APP_SLOGAN } from '@/lib/constants'
-
+import image1 from '../../../assets/Badge.png'
+import image2 from '../../../assets/Badge (1).png'
+import image3 from '../../../assets/Badge (2).png'
+import image4 from '../../../assets/Badge (3).png'
+import image5 from '../../../assets/Badge (4).png'
 import Link from 'next/link'
 import { useState } from 'react'
 import { EnvelopeIcon } from '@heroicons/react/24/outline' // Install with: npm install @heroicons/react
-import { MailWarning } from 'lucide-react'
+import { Github, Instagram, LucideFacebook, MailWarning, Twitter } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Image from 'next/image'
 
 const allLinks = {
   Company: [
@@ -29,6 +34,8 @@ const allLinks = {
   ],
 }
 
+const images = [image1,image2,image3, image4,image5]
+
 export default function Footer() {
   const [email, setEmail] = useState('')
   const error = false;
@@ -41,14 +48,15 @@ export default function Footer() {
   return (
     // bg-[#F0F0F0]
     <footer className="bg-[#F0F0F0]">
-      <div className="wrapper -translate-y-1/2 md:w-5/6 mx-auto">
+      <div className="wrapper  px-2 md:px-0   md:w-5/6 mx-auto">
 
 
       {/* NewsLetter  */}
-      <div className="bg-black flex-col sm:flex-row gap-4 text-[#F0F0F0] rounded-4xl shadow-xl px-7 py-5 flex items-center  ">
+      <div className="newsletter-wrapper max-h-[128px] w-full sm:max-h-[85px] ">
+              <div className="bg-black -translate-y-1/2  flex-col sm:flex-row gap-4 text-[#F0F0F0] rounded-xl shadow-xl px-7 py-5 flex items-center  ">
       {/* text container  */}
       <div className=" sm:w-1/2">
-        <h1 className='text-2xl max-w-prose font-extrabold uppercase break-words'>Stay upto date about our latest Offers</h1>
+        <h1 className='text-2xl font-integral max-w-prose font-extrabold uppercase break-words'>Stay up to date about our latest Offers</h1>
       </div>
       
 
@@ -80,17 +88,68 @@ export default function Footer() {
       </div>
 
       </div>
+      </div>
 
 
       {/* Middle of the footer  */}
-      <div className="py-9">
+      <div className="flex flex-col space-y-7 py-6  border-b-2 lg:flex-row  ">
         {/* Logo and slogan  */}
-        <div className="logo_slogan">
-        <h1>{APP_NAME}</h1>
-        <p className='max-w-prose'> {APP_SLOGAN}</p>
+        <div className="logo_slogan h-full flex flex-col space-y-3 ">
+        <h1 className='font-semibold text-lg'>{APP_NAME}</h1>
+        <p className='lg:max-w-[18rem] text-[black]/60 text-sm'> {APP_SLOGAN}</p>
+
+        <div className="flex space-x-5">
+          <div className="flex justify-center border-2  hover:bg-black hover:text-white items-center cursor-pointer p-1 rounded-full bg-white">
+          <Twitter />
+          </div>
+          <div className="flex justify-center border-2 hover:bg-black hover:text-white transition-all ease-in-out items-center cursor-pointer p-1 rounded-full bg-white">
+          <LucideFacebook />
+          </div>
+          <div className="flex justify-center border-2 hover:bg-black hover:text-white transition-all ease-in-out items-center cursor-pointer p-1 rounded-full bg-white">    
+          <Instagram />
+          </div>
+          <div className="flex justify-center border-2 hover:bg-black hover:text-white transition-all ease-in-out items-center cursor-pointer p-1 rounded-full bg-white">
+             <Github />
+          </div>
+
+       
+        </div>
+        </div>
+
+        {/* Links  */}
+        <div className="links px-1 flex-1 grid grid-cols-2 md:grid-cols-3 gap-5 lg:grid-cols-4">
+          
+            <div className="company">
+              <h1 className='text-md font-semibold'>Company</h1>
+              {allLinks.Company.map((link,i) => <div className="py-1 mt-2 text-sm text-[black]/60" key={i}><a href={link.path}>{link.title}</a></div>)}
+            </div>
+            <div className="company">
+              <h1 className='text-md font-semibold'>Help</h1>
+              {allLinks.Help.map((link,i) => <div className="py-1 mt-2 text-sm text-[black]/60" key={i}><a href={link.path}>{link.title}</a></div>)}
+            </div>
+            <div className="company">
+              <h1 className='text-md font-semibold'>FAQ</h1>
+              {allLinks.Company.map((link,i) => <div className="py-1 mt-2 text-sm text-[black]/60" key={i}><a href={link.path}>{link.title}</a></div>)}
+            </div>
+            <div className="company">
+              <h1 className='text-md font-semibold'>Resources</h1>
+              {allLinks.Company.map((link,i) => <div className="py-1 mt-2 text-sm text-[black]/60" key={i}><a href={link.path}>{link.title}</a></div>)}
+            </div>
+         
+          
         </div>
       </div>
 
+      
+      {/* Bottom of the footer  */}
+      <div className="flex justify-between flex-col sm:flex-row items-center py-4">
+        <div>
+          <p className='text-sm text-[black]/60'>{APP_NAME} &copy; 2025 | All Rights Reserved</p>
+          </div>
+        <div className="flex space-x-2 md:space-x-3">
+          {images.map((image,i) => <Image src={image} key={i} width={50} height={50} alt='payment images' />)}
+        </div>
+      </div>
       </div>
     </footer>
 

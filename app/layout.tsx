@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
+import "./globals.css"
+import localFont from 'next/font/local'
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -11,6 +11,17 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const integralCF = localFont({
+  src:[
+    {path:"../assets/fonts/Fontspring-DEMO-integralcf-regular.otf",
+    weight:"100",
+    style:"normal"
+    }
+
+  ],
+  variable:'--font-integralCF'
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} bg-[white] ${geistMono.variable} antialiased`}
+        className={`${integralCF.variable} bg-[white] ${geistMono.variable} antialiased`}
       >
         {children}
       </body>

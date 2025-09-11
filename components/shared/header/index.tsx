@@ -25,7 +25,7 @@ import Navbar from './navbar'
                 </div>
                <Link
                  href='/'
-                 className='flex items-center header-button font-extrabold text-xl m-1 '
+                 className='flex items-center font-integral header-button font-semibold tracking-wide text-xl m-1 '
                >
                
                  {APP_NAME}
