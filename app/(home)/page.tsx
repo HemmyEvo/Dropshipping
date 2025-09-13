@@ -1,5 +1,6 @@
 import BrandsSection from "@/components/shared/home/brand_section";
 import Hero from "@/components/shared/home/hero";
+import BrowseByDressStyle from '@/components/shared/browseDressByCategory';
 import {
   TextDivider,
   LineDivider,
@@ -112,7 +113,7 @@ const topSelling = [
         products={topSelling}
       />
 <WaveDivider />
-
+<BrowseByDressStyle />
         </div>
       )
     }
