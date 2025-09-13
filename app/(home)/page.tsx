@@ -1,6 +1,6 @@
 import BrandsSection from "@/components/shared/home/brand_section";
 import Hero from "@/components/shared/home/hero";
-import BrowseByDressStyle from '@/components/shared/browseDressByCategory';
+import BrowseByDressStyle from '@/components/shared/home/browseDressByCategory';
 import {
   TextDivider,
   LineDivider,
