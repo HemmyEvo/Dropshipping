@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button'
 
 function Hero() {
   return (
-    <div className='bg-[#F2F0F1]   md:h-[70vh]  '>
-        <div className="wrapper mx-auto sm:px-9 grid pt-7 h-full gap-4 md:grid-cols-2">
+    <div className='bg-[#F2F0F1] overflow-hidden   md:h-[70vh]  '>
+        <div className="wrapper mx-auto md:px-9 grid pt-7 h-full gap-4 md:grid-cols-2">
 
-        <div className="text-cont flex justify-center items-center ">
+        <div className="text-cont px-2 md:px-0 flex justify-center items-center ">
             <div className="space-y-3">
                 <h1 className='text-4xl font-bold font-integral md:max-w-xs'>FIND CLOTHES THAT MATCHES YOUR STYLE</h1>
                 <p className='text-sm text-[black]/60'>Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.</p>
@@ -22,7 +22,7 @@ function Hero() {
             </div>
         </div>
         <div className="image-cont w-full   h-full justify-center items-center flex transition-all ease-in-out min-h-[300px]  relative">
-            <div className="image-wrapper shrink-0 w-full md:w-auto justify-center items-center flex relative mx-auto h-full  ">
+            <div className="image-wrapper  w-full md:w-auto justify-center items-center flex relative  h-full  ">
             <Image src={HeroStar} height={60} width={60} priority={true} className='object-contain absolute right-2/8 -top-2 md:top-10 z-30  md:right-1/8 object-center' alt='HeroImage' />
             <Image src={HeroImage}  priority={true} className='object-cover h-full w-full object-center' alt='HeroImage' />
             <Image src={HeroStar} height={40} width={40} priority={true} className='object-contain absolute top-5/12 z-30 left-1/8 object-center' alt='HeroImage' />
