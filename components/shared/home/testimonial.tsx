@@ -105,7 +105,7 @@ const OurHappyCustomers = () => {
 
                   {/* Testimonial Text */}
                   <p className="text-gray-600 text-center text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
-                    "{testimonial.content}"
+                    {testimonial.content}
                   </p>
 
                   {/* Customer Info */}
