@@ -102,7 +102,7 @@ const topSelling = [
         viewAllPath="/new-arrivals"
         products={newArrivals}
       />
-<ZigzagDivider className="rotate-180" />
+<ZigzagDivider />
 <CurvedDivider  />
       
       {/* Top Selling Section */}
