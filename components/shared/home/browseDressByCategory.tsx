@@ -38,7 +38,7 @@ const BrowseByDressStyle = () => {
           {/* Casual - Large block on left */}
           <Link 
             href={styles[0].link}
-            className="relative h-80 md:h-96 rounded-2xl overflow-hidden group"
+            className="relative h-80 md:h-full rounded-2xl overflow-hidden group"
           >
             <Image
               src={styles[0].image}
