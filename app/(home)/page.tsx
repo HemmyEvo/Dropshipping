@@ -1,5 +1,19 @@
 import BrandsSection from "@/components/shared/home/brand_section";
 import Hero from "@/components/shared/home/hero";
+import {
+  TextDivider,
+  LineDivider,
+  OrnamentalDivider,
+  GradientDivider,
+  DottedDivider,
+  SectionDivider,
+  WaveDivider,
+  ZigzagDivider,
+  CurvedDivider,
+  CustomShapeDivider,
+  IconDivider,
+  DoubleLineDivider
+} from '@/components/shared/div-divider';
 import ProductShowcase from '@/components/shared/product/productShowcase';
     export default async function Page() {
 const newArrivals = [
@@ -78,13 +92,14 @@ const topSelling = [
         <div>
           <Hero />
           <BrandsSection />
+<CurvedDivider className="bg-white" />
      {/* New Arrivals Section */}
       <ProductShowcase 
         title="NEW ARRIVALS"
         viewAllPath="/new-arrivals"
         products={newArrivals}
       />
-      
+      <WaveDivider />
       {/* Top Selling Section */}
       <ProductShowcase 
         title="TOP SELLING"
