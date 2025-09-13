@@ -123,7 +123,7 @@ const OurHappyCustomers = () => {
                   </div>
 
                   <p className="text-gray-600 text-center text-lg leading-relaxed mb-6">
-                    "{testimonial.content}"
+                    {testimonial.content}
                   </p>
 
                   <div className="flex items-center justify-center gap-4">
