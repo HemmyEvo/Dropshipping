@@ -1,6 +1,6 @@
 import BrandsSection from "@/components/shared/home/brand_section";
 import Hero from "@/components/shared/home/hero";
-import ProductShowcase from '@/components/product/productShowcase';
+import ProductShowcase from '@/components/shared/product/productShowcase';
     export default async function Page() {
 const newArrivals = [
   {
