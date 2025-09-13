@@ -1,5 +1,6 @@
 import BrandsSection from "@/components/shared/home/brand_section";
 import Hero from "@/components/shared/home/hero";
+import OurHappyCustomers from "@/components/shared/home/testimonial";
 import BrowseByDressStyle from '@/components/shared/home/browseDressByCategory';
 import {
   TextDivider,
@@ -95,9 +96,6 @@ reviewCount: 167
         <div>
           <Hero />
           <BrandsSection />
-<CustomShapeDivider className="rotate-180 "/>
-
-
 
      {/* New Arrivals Section */}
       <ProductShowcase 
@@ -105,17 +103,21 @@ reviewCount: 167
         viewAllPath="/new-arrivals"
         products={newArrivals}
       />
-<ZigzagDivider />
-<CurvedDivider  />
       
+
       {/* Top Selling Section */}
       <ProductShowcase 
         title="TOP SELLING"
         viewAllPath="/top-selling"
         products={topSelling}
       />
-<WaveDivider />
-<BrowseByDressStyle />
+
+      
+       <BrowseByDressStyle />
+
+       <OurHappyCustomers />
+
+
         </div>
       )
     }
