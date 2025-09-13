@@ -92,24 +92,27 @@ const topSelling = [
         <div>
           <Hero />
           <BrandsSection />
-<CurvedDivider className="bg-white" />
-<ZigzagDivider className="bg-gray-50" />
-<TextDivider text="Browse more categories" />
+<CustomShapeDivider className="rotate-180 bg-[black]/60"/>
+
+
+
      {/* New Arrivals Section */}
       <ProductShowcase 
         title="NEW ARRIVALS"
         viewAllPath="/new-arrivals"
         products={newArrivals}
       />
-      <WaveDivider />
+<ZigzagDivider className="bg-black/60" />
+<CurvedDivider className="rotate-180 bg-[black]/60" />
+      
       {/* Top Selling Section */}
       <ProductShowcase 
         title="TOP SELLING"
         viewAllPath="/top-selling"
         products={topSelling}
       />
-<CustomShapeDivider />
-<DottedDivider className="my-8" />
+<WaveDivider className=" bg-[black]/70" />
+
         </div>
       )
     }
