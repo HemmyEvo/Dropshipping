@@ -7,6 +7,7 @@ import { APP_NAME } from '@/lib/constants'
    import SearchComponent from './search'
 import Notifications from './notification'
 import Navbar from './navbar'
+import MobileDrawer from './mobileDrawer'
 
    export default function Header() {
      return (
@@ -21,7 +22,7 @@ import Navbar from './navbar'
 
              <div className='flex items-center'>
                 <div className="menu-bar md:hidden mr-2">
-                <AlignLeftIcon className='h-6 cursor-pointer w-6' />
+              <MobileDrawer />
                 </div>
                <Link
                  href='/'
@@ -32,7 +33,7 @@ import Navbar from './navbar'
                </Link>
              </div>
           
-             <div className='hidden  md:flex items-center flex-1 max-w-4xl'>
+             <div className='hidden  md:flex items-center space-x-5 flex-1 max-w-4xl'>
                 <Navbar />
                <SearchComponent />
              </div>

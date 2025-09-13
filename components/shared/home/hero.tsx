@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 
 function Hero() {
   return (
-    <div className='bg-[#F2F0F1] overflow-hidden   md:h-[70vh]  '>
+    <div className='bg-[#F2F0F1] overflow-hidden   md:h-[75vh]  '>
         <div className="wrapper mx-auto md:px-9 grid pt-7 h-full gap-4 md:grid-cols-2">
 
         <div className="text-cont px-2 md:px-0 flex justify-center items-center ">

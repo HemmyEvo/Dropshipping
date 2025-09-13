@@ -17,9 +17,12 @@ import SearchComponent from './search'
         )}
          <nav className='flex  items-center gap-3 w-full'>
             <Search onClick={() => setToggleSearch(prev => !prev)} className='h-6 w-6 md:hidden cursor-pointer' />
-           <Link href='/cart' className='header-button'>
-             <ShoppingCartIcon className='h-6 w-6' />
-           </Link>
+            <Link href="/cart" className="relative">
+            <ShoppingCartIcon className="h-5 w-5" />
+            <span className="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-primary text-xs text-primary-foreground flex items-center justify-center">
+            0
+            </span>
+            </Link>
            <Link href='/cart' className='header-button'>
             
              <UserCircle2 className='h-6 w-6' />
