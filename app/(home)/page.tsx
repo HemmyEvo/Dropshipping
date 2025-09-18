@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BrandsSection from "@/components/shared/home/brand_section";
 import Hero from "@/components/shared/home/hero";
 import OurHappyCustomers from "@/components/shared/home/testimonial";
-import BrowseByDressStyle from '@/components/shared/home/browseDressByCategory';
+
 import {
   TextDivider,
   LineDivider,
@@ -16,108 +17,107 @@ import {
   IconDivider,
   DoubleLineDivider
 } from '@/components/shared/div-divider';
-import ProductShowcase from '@/components/shared/product/productShowcase';
-    export default async function Page() {
-const newArrivals = [
-{
-id: 1,
-name: "T-shirt with Tape Details",
-price: 120,
-image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-rating: 4,
-reviewCount: 86
-},
-{
-id: 2,
-name: "Skinny Fit Jeans",
-price: 240,
-originalPrice: 260,
-image: "https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-rating: 5,
-reviewCount: 142
-},
-{
-id: 3,
-name: "Checkered Shirt",
-price: 180,
-image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-rating: 3,
-reviewCount: 54
-},
-{
-id: 4,
-name: "Striped T-shirt",
-price: 130,
-originalPrice: 160,
-image: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-rating: 4,
-reviewCount: 120
-}
-];
+import {ProductShowcase} from '@/components/shared/product/productShowcase';
+import { getAllCategories, getProductsForCard,getProductsByTag } from "@/lib/actions/product.action";
+import { toSlug } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
+import ProductSlider from "@/components/shared/product/product-slider";
 
-const topSelling = [
-{
-id: 5,
-name: "Vertical Striped Shirt",
-price: 212,
-originalPrice: 232,
-image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-rating: 5,
-reviewCount: 210
-},
-{
-id: 6,
-name: "Courage Graphic T-shirt",
-price: 145,
-image: "https://images.unsplash.com/photo-1523381294911-8d3cead13475?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-rating: 4,
-reviewCount: 98
-},
-{
-id: 7,
-name: "Lease Fit Bermuda Shorts",
-price: 80,
-image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-rating: 3,
-reviewCount: 45
-},
-{
-id: 8,
-name: "Faded Skinny Jeans",
-price: 210,
-image: "https://images.unsplash.com/photo-1582418702059-97ebafb35d09?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-rating: 5,
-reviewCount: 167
-}
-];
+// Sample images for dress styles
 
 
-      return (
-        <div>
-          <Hero />
-          <BrandsSection />
+export default async function Page() {
+  const categories = (await getAllCategories()).slice(0, 4);
+  const newArrivals = await getProductsForCard({
+    tag: 'new-arrival',
+    limit: 4,
+  });
+  const todaysDeals = await getProductsByTag({ tag: 'todays-deal' })
+  const bestSellingProducts = await getProductsByTag({ tag: 'best-seller' })
+     const featureds = await getProductsForCard({
+       tag: 'featured',
+       limit: 4,
+     })
+     const bestSellers = await getProductsForCard({
+       tag: 'best-seller',
+       limit: 4,
+     })
+   const cards = [
+       {
+         title: 'Categories to explore',
+         link: {
+           text: 'See More',
+           href: '/search',
+         },
+         items: categories.map((category:any) => ({
+           name: category,
+           image: `/images/${toSlug(category)}.jpg`,
+           href: `/search?category=${category}`,
+         })),
+       },
+       {
+         title: 'Explore New Arrivals',
+         items: newArrivals,
+         link: {
+           text: 'View All',
+           href: '/search?tag=new-arrival',
+         },
+       },
+       {
+         title: 'Discover Best Sellers',
+         items: bestSellers,
+         link: {
+           text: 'View All',
+           href: '/search?tag=new-arrival',
+         },
+       },
+       {
+         title: 'Featured Products',
+         items: featureds,
+         link: {
+           text: 'Shop Now',
+           href: '/search?tag=new-arrival',
+         },
+       },
+     ]
 
-     {/* New Arrivals Section */}
+
+  // Transform categories to match the expected format for BrowseByDressStyle
+  const dressStyles = categories.slice(0, 4).map((category:any, index:number) => ({
+   
+    name: category || `Category ${index + 1}`,
+    image: `/images/${toSlug(category)}.jpg` ,
+    link: `/search?category=${category || `category-${index + 1}`}`
+  }));
+ console.log('Rendering Home Page with categories:', dressStyles);
+  return (
+    <div>
+      <Hero />
+      <BrandsSection />
+
+      {/* New Arrivals Section */}
       <ProductShowcase 
-        title="NEW ARRIVALS"
-        viewAllPath="/new-arrivals"
-        products={newArrivals}
+       cards={cards}
       />
-      
+       <Card className='w-full  rounded-none'>
+          <CardContent className='p-4 items-center gap-3'>
+            <ProductSlider title={"Today's Deals"} products={todaysDeals} />
+          </CardContent>
+        </Card>
 
-      {/* Top Selling Section */}
-      <ProductShowcase 
-        title="TOP SELLING"
-        viewAllPath="/top-selling"
-        products={topSelling}
-      />
+          <Card className='w-full rounded-none'>
+       <CardContent className='p-4 items-center gap-3'>
+         <ProductSlider
+           title='Best Selling Products'
+           products={bestSellingProducts}
+           hideDetails
+         />
+       </CardContent>
+     </Card>
+      {/* Browse By Dress Style Section */}
+      {/* <BrowseByDressStyle styles={dressStyles}/> */}
 
-      
-       <BrowseByDressStyle />
-
-       <OurHappyCustomers />
-
-
-        </div>
-      )
-    }
+      <OurHappyCustomers />
+    </div>
+  );
+}

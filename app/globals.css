@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -135,6 +136,8 @@
     
   }
 }
+
+
    @layer utilities {
      .header-button {
        @apply cursor-pointer p-1 border border-transparent hover:border-white rounded-[2px];

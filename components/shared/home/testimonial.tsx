@@ -79,17 +79,19 @@ const OurHappyCustomers = () => {
 
   return (
     <section className="py-16 px-4 md:px-8 lg:px-16 bg-gray-50">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl sm:px-32 mx-auto">
         {/* Heading */}
-        <h2 className="font-integral text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12 tracking-tight">
+        <h2 className="font-integral text-2xl md:text-4xl lg:text-5xl font-bold text-center mb-12 ">
           OUR HAPPY CUSTOMERS
         </h2>
 
         {/* Slider Container */}
-        <div className="relative overflow-hidden">
+        <div className="relative ">
+          <div className="overflow-hidden">
+
           {/* Slider Track */}
           <div
-            className="flex transition-transform duration-500 ease-in-out"
+            className="flex py-4  transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
             {testimonials.map((testimonial) => (
@@ -97,7 +99,7 @@ const OurHappyCustomers = () => {
                 key={testimonial.id}
                 className="w-full flex-shrink-0 px-4"
               >
-                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+                <div className="bg-black/10 h-full rounded-2xl p-6 md:p-8 shadow-xl">
                   {/* Rating */}
                   <div className="flex justify-center mb-4">
                     <div className="flex gap-1">{renderStars(testimonial.rating)}</div>
@@ -128,20 +130,21 @@ const OurHappyCustomers = () => {
               </div>
             ))}
           </div>
+          </div>
 
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-2 bg-black/30 rounded-full p-2 shadow-lg hover:bg-black/50 transition-colors z-10"
             aria-label="Previous testimonial"
           >
             <ChevronLeft size={24} />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors z-10"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-2 bg-black/30 cursor-pointer rounded-full p-2 shadow-lg hover:bg-black/50 transition-colors z-10"
             aria-label="Next testimonial"
-          >
+          > 
             <ChevronRight size={24} />
           </button>
         </div>

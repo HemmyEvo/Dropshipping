@@ -3,6 +3,7 @@ import React from 'react'
 import HeroImage from '../../../assets/HeroImage.png'
 import HeroStar from '../../../assets/HeroStar.png'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 
 function Hero() {
@@ -15,10 +16,11 @@ function Hero() {
                 <h1 className='text-4xl font-bold font-integral md:max-w-xs'>FIND CLOTHES THAT MATCHES YOUR STYLE</h1>
                 <p className='text-sm text-[black]/60'>Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.</p>
                 <div className="button">
-                    
-                    <Button className='bg-black'>
+                    <Link href={"/product"}>
+                    <Button className=' cursor-pointer bg-primary/50'>
                         Shop Now
                     </Button>
+                    </Link>
                 </div>
             </div>
         </div>

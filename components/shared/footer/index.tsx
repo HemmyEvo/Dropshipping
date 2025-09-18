@@ -48,7 +48,7 @@ export default function Footer() {
   return (
     // bg-[#F0F0F0]
     <footer className="bg-[#F0F0F0]">
-      <div className="wrapper  px-2 md:px-9    mx-auto">
+      <div className="wrapper max-w-6xl  px-2 md:px-9    mx-auto">
 
 
       {/* NewsLetter  */}
@@ -95,7 +95,7 @@ export default function Footer() {
       <div className="flex flex-col space-y-7 py-6  border-b-2 lg:flex-row  ">
         {/* Logo and slogan  */}
         <div className="logo_slogan h-full flex flex-col space-y-3 ">
-        <h1 className='font-semibold text-lg font-integral'>{APP_NAME}</h1>
+        <h1 className='font-semibold tracking-widest text-lg font-integral'>{APP_NAME}</h1>
         <p className='lg:max-w-[18rem] text-[black]/60 text-sm'> {APP_SLOGAN}</p>
 
         <div className="flex space-x-5">

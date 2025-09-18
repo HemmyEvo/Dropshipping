@@ -1,91 +1,56 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { Star } from 'lucide-react';
+ import Image from 'next/image'
+   import Link from 'next/link'
+   import React from 'react'
+   import { Card, CardContent, CardFooter } from '@/components/ui/card'
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  image: string;
-  rating: number;
-  reviewCount: number;
-}
+   type CardItem = {
+     title: string
+     link: { text: string; href: string }
+     items: {
+       name: string
+       items?: string[]
+       image: string
+       href: string
+     }[]
+   }
 
-interface ProductShowcaseProps {
-  title: string;
-  viewAllPath: string;
-  products: Product[];
-}
-
-const ProductShowcase: React.FC<ProductShowcaseProps> = ({ title, viewAllPath, products }) => {
-  // Function to render star ratings
-  const renderStars = (rating: number) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <Star
-          key={i}
-          size={14}
-          className={i <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}
-        />
-      );
-    }
-    return stars;
-  };
-
-  return (
-    <section className="py-12 px-4 md:px-8 lg:px-16">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className={`font-integral text-2xl md:text-3xl lg:text-4xl font-bold`}>
-          {title}
-        </h2>
-      </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        {products.map((product) => (
-          <div key={product.id} className="group">
-            <div className="relative overflow-hidden rounded-lg bg-gray-100 mb-3">
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={300}
-                height={400}
-                className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <h3 className="font-semibold text-lg mb-1">{product.name}</h3>
-            
-            {/* Rating */}
-            <div className="flex items-center gap-1 mb-2">
-              {renderStars(product.rating)}
-              <span className="text-xs text-gray-500 ml-1">({product.reviewCount})</span>
-            </div>
-            
-            {/* Price */}
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-lg">${product.price}</span>
-              {product.originalPrice && (
-                <span className="text-gray-500 line-through text-sm">
-                  ${product.originalPrice}
-                </span>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* View All button at the bottom centered */}
-      <div className="flex justify-center">
-        <Link 
-          href={viewAllPath}
-          className="border border-black px-8 py-3 rounded-full font-medium hover:bg-black hover:text-white transition-colors"
-        >
-          View All
-        </Link>
-      </div>
-    </section>
-  );
-};
-
-export default ProductShowcase;
+   export function ProductShowcase({ cards }: { cards: CardItem[] }) {
+     return (
+       <div className='grid p-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4'>
+         {cards.map((card) => (
+           <Card key={card.title} className='rounded-md flex flex-col'>
+             <CardContent className='p-4 flex-1'>
+               <h3 className='text-lg tracking-wide font-thin font-integral mb-4'>{card.title}</h3>
+               <div className='grid grid-cols-2 gap-4'>
+                 {card.items.map((item) => (
+                   <Link
+                     key={item.name}
+                     href={item.href}
+                     className='flex flex-col'
+                   >
+                     <Image
+                       src={item.image}
+                       alt={item.name}
+                       className='aspect-square object-scale-down max-w-full h-auto mx-auto'
+                       height={120}
+                       width={120}
+                     />
+                     <p className='text-center text-sm whitespace-nowrap overflow-hidden text-ellipsis'>
+                       {item.name}
+                     </p>
+                   </Link>
+                 ))}
+               </div>
+             </CardContent>
+             {card.link && (
+               <CardFooter>
+                 <Link href={card.link.href} className='mt-4 block'>
+                   {card.link.text}
+                 </Link>
+               </CardFooter>
+             )}
+           </Card>
+         ))}
+       </div>
+     )
+   }

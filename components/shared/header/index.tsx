@@ -1,15 +1,13 @@
 import { APP_NAME } from '@/lib/constants'
    import Link from 'next/link'
    import Menu from './menu'
-   import { Button } from '@/components/ui/button'
-   import { AlignLeftIcon, MenuIcon } from 'lucide-react'
-   import data from '@/lib/data'
    import SearchComponent from './search'
 import Notifications from './notification'
 import Navbar from './navbar'
 import MobileDrawer from './mobileDrawer'
 
    export default function Header() {
+    
      return (
        <header>
         {/* Notifications  */}

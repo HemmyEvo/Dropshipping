@@ -1,17 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { ChevronDown } from 'lucide-react'
 import React, { useState } from 'react'
-
-function Navbar() {
+// import data from "@/lib/data"
+import { getAllCategories } from '@/lib/actions/product.action'
+export default function Navbar() {
   const [isHovered, setIsHovered] = useState(false)
-  
-  const shopItems = [
-    { title: 'All Products', path: '/products' },
-    { title: 'Electronics', path: '/category/electronics' },
-    { title: 'Fashion', path: '/category/fashion' },
-    { title: 'Home & Garden', path: '/category/home-garden' },
-    { title: 'Beauty & Health', path: '/category/beauty-health' },
-  ]
+  const [categories, setCategories] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesData = (await getAllCategories()).slice(0, 4);
+      setCategories(categoriesData);
+    };
+    fetchCategories();
+  }, []);
+
 
   return (
     <nav className="flex items-center space-x-6">
@@ -27,13 +31,13 @@ function Navbar() {
         
         {isHovered && (
           <div className="absolute top-full left-0 w-48 bg-white border rounded-md shadow-lg py-2 z-10 animate-in fade-in-50">
-            {shopItems.map((item, index) => (
+            {categories.map((category, index) => (
               <a
                 key={index}
-                href={item.path}
+                href={`/search?category=${category}`}
                 className="block px-4 py-2 text-sm hover:bg-purple-50 transition-colors"
               >
-                {item.title}
+                {category}
               </a>
             ))}
           </div>
@@ -54,5 +58,3 @@ function Navbar() {
     </nav>
   )
 }
-
-export default Navbar
