@@ -16,7 +16,7 @@ interface QuickViewModalProps {
   product: IProductInput
   open: boolean
   onOpenChange: (open: boolean) => void
-}
+} 
 
 const QuickViewModal = ({ product, open, onOpenChange }: QuickViewModalProps) => {
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({})
