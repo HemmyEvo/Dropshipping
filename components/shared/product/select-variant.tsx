@@ -42,7 +42,7 @@ export default function SelectVariant({
                   <Link replace scroll={false} href={`?${params.toString()}`}>
                     {opt.image ? (
                       <Image
-                        src={opt.image}
+                        src={opt.image.url}
                         alt={opt.label}
                         width={40}
                         height={40}

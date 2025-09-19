@@ -96,8 +96,6 @@ export default async function Page() {
        <div className='p-4 bg-background'>
      <BrowsingHistoryList />
    </div>
-      {/* Browse By Dress Style Section */}
-      {/* <BrowseByDressStyle styles={dressStyles}/> */}
 
       <OurHappyCustomers />
     </div>
