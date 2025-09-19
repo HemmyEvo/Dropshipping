@@ -4,13 +4,23 @@ import localFont from 'next/font/local'
 import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN } from '@/lib/constants'
 const integralCF = localFont({
   src:[
-    {path:"../assets/fonts/Fontspring-DEMO-integralcf-regularoblique.otf",
+    {path:"../assets/fonts/Fontspring-DEMO-integralcf-medium.otf",
     weight:"100",
     style:"normal"
     }
 
   ],
   variable:'--font-integralCF'
+})
+const floryanna = localFont({
+  src:[
+    {path:"../assets/fonts/playfair-display.italic.ttf",
+    weight:"100",
+    style:"normal"
+    }
+
+  ],
+  variable:'--font-floryanna'
 })
 
 export const metadata: Metadata = {
@@ -29,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${integralCF.variable} bg-[white] antialiased`}
+        className={`${integralCF.variable} ${floryanna.variable} bg-[white] antialiased`}
       >
         {children}
       </body>

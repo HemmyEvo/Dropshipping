@@ -1,74 +1,141 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Thumbs, FreeMode } from 'swiper/modules'
+import { Navigation, Thumbs, FreeMode, Zoom } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 import 'swiper/css/free-mode'
+import 'swiper/css/zoom'
 import { IIMage } from '@/types'
 
 export default function ProductGallery({ images }: { images: IIMage[] }) {
-  const [selectedImage, setSelectedImage] = useState(0)
+  const [selectedImage, setSelectedImage] = useState(images[0]?.id || '')
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null)
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
   const mainSwiperRef = useRef<SwiperType | null>(null)
 
   // Navigation handlers
-  const nextImage = () => {
-    if (mainSwiperRef.current) {
-      mainSwiperRef.current.slideNext()
-    }
+  const nextImage = () => mainSwiperRef.current?.slideNext()
+  const prevImage = () => mainSwiperRef.current?.slidePrev()
+
+  // Hover zoom state
+  const [zoomStyle, setZoomStyle] = useState<React.CSSProperties>({})
+  const [isZooming, setIsZooming] = useState(false)
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - left) / width) * 100
+    const y = ((e.clientY - top) / height) * 100
+    setZoomStyle({
+      transformOrigin: `${x}% ${y}%`,
+      transform: 'scale(2)', // zoom factor
+    })
   }
-
-  const prevImage = () => {
-    if (mainSwiperRef.current) {
-      mainSwiperRef.current.slidePrev()
-    }
-  }
-
-  // Keyboard navigation for lightbox
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isLightboxOpen) return
-      
-      if (e.key === 'Escape') {
-        setIsLightboxOpen(false)
-      } else if (e.key === 'ArrowRight') {
-        nextImage()
-      } else if (e.key === 'ArrowLeft') {
-        prevImage()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isLightboxOpen])
-
-  // Disable body scroll when lightbox is open
-  useEffect(() => {
-    if (isLightboxOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-    
-    return () => {
-      document.body.style.overflow = 'auto'
-    }
-  }, [isLightboxOpen])
 
   return (
-    <div className="">
-        <div className="thumbnail"></div>
-        <div className="main-image"></div>
+    <div className="flex h-full flex-col gap-4 lg:flex-row lg:h-[389px] mx-auto max-w-[498px]">
+      {/* Thumbnails */}
+      <div className="thumbnail h-[60px] scrollbar-hidden overflow-scroll order-2 lg:order-1 lg:h-full lg:w-[80px]">
+        {images.length > 1 && (
+          <div className="h-full flex lg:flex-col items-center gap-2">
+            {images.map((img, index) => (
+              <div
+                key={img.url}
+                className={`relative mb-2 h-[60px] w-[50px] cursor-pointer border ${
+                  selectedImage === img.id ? 'border-blue-500' : 'border-transparent'
+                }`}
+                onClick={() => {
+                  setSelectedImage(img.id)
+                  mainSwiperRef.current?.slideTo(index)
+                }}
+              >
+                <Image
+                  src={img.url}
+                  alt={img.alt || `Thumbnail ${index + 1}`}
+                  fill
+                  className="object-cover object-center"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Main Image */}
+      <div className="main-image lg:w-20 flex-1 lg:order-2 bg-[black]/20">
+        <div className="wrapper relative h-[380px] sm:h-[60vh] md:h-full w-full">
+          <Swiper
+            onSwiper={(swiper) => (mainSwiperRef.current = swiper)}
+            onSlideChange={(swiper) => {
+              const currentImage = images[swiper.activeIndex]
+              if (currentImage) {
+                setSelectedImage(currentImage.id)
+              }
+            }}
+            navigation={{
+              nextEl: '.custom-next',
+              prevEl: '.custom-prev',
+            }}
+            thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+            modules={[Navigation, Thumbs, FreeMode, Zoom]}
+            zoom={{ maxRatio: 3 }}
+            className="h-full group"
+          >
+            {images.map((img, index) => (
+              <SwiperSlide key={img.url}>
+                <div
+                  className="relative w-full h-full lg:h-[389px] cursor-zoom-in overflow-hidden"
+                  onMouseMove={handleMouseMove}
+                  onMouseEnter={() => setIsZooming(true)}
+                  onMouseLeave={() => {
+                    setIsZooming(false)
+                    setZoomStyle({})
+                  }}
+                >
+                  <Image
+                    src={img.url}
+                    alt={img.alt || `Product Image ${index + 1}`}
+                    fill
+                    className={`object-cover object-center transition-transform duration-200 ${
+                      isZooming ? 'lg:scale-150' : ''
+                    }`}
+                    style={isZooming ? zoomStyle : {}}
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+
+            {/* Navigation Buttons */}
+            {images.length > 1 && (
+              <>
+                <button
+                  className="custom-prev absolute top-1/2 left-2 z-10 -translate-y-1/2 bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  onClick={prevImage}
+                >
+                  &#8592;
+                </button>
+                <button
+                  className="custom-next absolute top-1/2 right-2 z-10 -translate-y-1/2 bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  onClick={nextImage}
+                >
+                  &#8594;
+                </button>
+              </>
+            )}
+          </Swiper>
+
+          {/* Image Counter */}
+          <div className="absolute bottom-0 z-40 bg-[black]/40 text-white w-full flex justify-end px-4 py-1">
+            <p>
+              {mainSwiperRef.current ? mainSwiperRef.current.activeIndex + 1 : '1'} /{' '}
+              {images.length}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
-
-
-
-

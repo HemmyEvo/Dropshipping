@@ -45,6 +45,7 @@
 }
 :root {
   --font-integralCF :"Integral CF",sans-serif;
+  --font-floryanna :"floryanna";
   --radius: 0.65rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -117,6 +118,17 @@
   .font-integral {
     font-family: var(--font-integralCF);
   }
+  .font-floryanna {
+    font-family: var(--font-floryanna);
+  }
+  .scrollbar-hidden{
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .scrollbar-hidden::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
+  
   
   /* You can also create specific utility classes for different weights if available */
   .font-integral-semibold {

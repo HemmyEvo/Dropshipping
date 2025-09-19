@@ -2,26 +2,12 @@
 import BrandsSection from "@/components/shared/home/brand_section";
 import Hero from "@/components/shared/home/hero";
 import OurHappyCustomers from "@/components/shared/home/testimonial";
-
-import {
-  TextDivider,
-  LineDivider,
-  OrnamentalDivider,
-  GradientDivider,
-  DottedDivider,
-  SectionDivider,
-  WaveDivider,
-  ZigzagDivider,
-  CurvedDivider,
-  CustomShapeDivider,
-  IconDivider,
-  DoubleLineDivider
-} from '@/components/shared/div-divider';
 import {ProductShowcase} from '@/components/shared/product/productShowcase';
 import { getAllCategories, getProductsForCard,getProductsByTag } from "@/lib/actions/product.action";
 import { toSlug } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import ProductSlider from "@/components/shared/product/product-slider";
+import BrowsingHistoryList from "@/components/shared/browsing-history-list";
 
 // Sample images for dress styles
 
@@ -82,14 +68,7 @@ export default async function Page() {
      ]
 
 
-  // Transform categories to match the expected format for BrowseByDressStyle
-  const dressStyles = categories.slice(0, 4).map((category:any, index:number) => ({
-   
-    name: category || `Category ${index + 1}`,
-    image: `/images/${toSlug(category)}.jpg` ,
-    link: `/search?category=${category || `category-${index + 1}`}`
-  }));
- console.log('Rendering Home Page with categories:', dressStyles);
+
   return (
     <div>
       <Hero />
@@ -105,7 +84,7 @@ export default async function Page() {
           </CardContent>
         </Card>
 
-          <Card className='w-full rounded-none'>
+    <Card className='w-full rounded-none'>
        <CardContent className='p-4 items-center gap-3'>
          <ProductSlider
            title='Best Selling Products'
@@ -114,6 +93,9 @@ export default async function Page() {
          />
        </CardContent>
      </Card>
+       <div className='p-4 bg-background'>
+     <BrowsingHistoryList />
+   </div>
       {/* Browse By Dress Style Section */}
       {/* <BrowseByDressStyle styles={dressStyles}/> */}
 

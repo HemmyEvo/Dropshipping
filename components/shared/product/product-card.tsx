@@ -51,10 +51,10 @@ const ProductCard = ({
 
   const ProductDetails = () => (
     <div className="flex-1 space-y-2">
-      <p className="font-bold">{product.brand}</p>
+      <p className="font-bold font-integral">{product.brand}</p>
       <Link
         href={`/product/${product.slug}`}
-        className="overflow-hidden hover:text-[blue] cursor-pointer text-ellipsis"
+        className="overflow-hidden hover:text-[blue] font-floryanna cursor-pointer text-ellipsis"
         style={{
           display: '-webkit-box',
           WebkitLineClamp: 2,

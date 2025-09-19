@@ -22,7 +22,7 @@ import { IProductInput } from '@/types'
    }) {
      return (
        <div className='w-full  bg-background'>
-         <h2 className='font-bold text-2xl lg:text-3xl text-center mb-5 capitalize font-integral '>{title}</h2>
+         <h2 className='font-extrabold text-2xl lg:text-3xl text-center mb-5 capitalize font-floryanna '>{title}</h2>
       <Carousel
         opts={{
           align: 'start',

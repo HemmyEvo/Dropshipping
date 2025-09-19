@@ -27,7 +27,7 @@ const ImageHover = ({
       if (hoverSrcs.length > 0) {
         hoverInterval.current = setInterval(() => {
           setCurrentHoverIndex(prev => (prev + 1) % hoverSrcs.length)
-        }, 400) // cycle like AliExpress
+        }, 1000) // cycle like AliExpress
       }
     }, 300) // delay before hover starts
   }

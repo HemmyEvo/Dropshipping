@@ -22,7 +22,7 @@ export const variantOptionSchema = z.object({
   price: z.number().positive(),
   listPrice: z.number().positive().optional(),
   stock: z.number().nonnegative(),
-  image: z.string().optional(),
+  image: imageSchema.optional(),
   sku: z.string().optional()
 })
 
