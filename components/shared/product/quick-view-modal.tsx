@@ -9,9 +9,8 @@ import ProductPrice from "./product-price"
 import { ShoppingCart, Truck, RotateCcw, Minus, Plus, X, Zap } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import SwatchSelector from './swatch-selector'
+
+
 
 interface QuickViewModalProps {
   product: IProductInput
@@ -54,12 +53,6 @@ const QuickViewModal = ({ product, open, onOpenChange }: QuickViewModalProps) =>
   }
 
   // Handle variant selection
-  const handleVariantSelect = (variantTitle: string, optionLabel: string) => {
-    setSelectedVariants(prev => ({
-      ...prev,
-      [variantTitle]: optionLabel
-    }))
-  }
 
   // Handle quantity change
   const handleQuantityChange = (newQuantity: number) => {
@@ -188,41 +181,7 @@ const QuickViewModal = ({ product, open, onOpenChange }: QuickViewModalProps) =>
               <div key={index} className="space-y-3">
                 <Label className="text-sm font-medium">{variantGroup.title}</Label>
                 
-                {variantGroup.title.toLowerCase().includes('color') ? (
-                  <SwatchSelector
-                    colors={variantGroup.options.map(opt => opt.label)}
-                    selectedColor={selectedVariants[variantGroup.title] || variantGroup.options[0].label}
-                    onColorSelect={(color) => handleVariantSelect(variantGroup.title, color)}
-                    size="md"
-                  />
-                ) : (
-                  <RadioGroup
-                    value={selectedVariants[variantGroup.title] || variantGroup.options[0].label}
-                    onValueChange={(value) => handleVariantSelect(variantGroup.title, value)}
-                    className="flex flex-wrap gap-2"
-                  >
-                    {variantGroup.options.map((option, optIndex) => (
-                      <div key={optIndex} className="flex items-center space-x-2">
-                        <RadioGroupItem 
-                          value={option.label} 
-                          id={`${variantGroup.title}-${optIndex}`}
-                          className="sr-only"
-                        />
-                        <Label
-                          htmlFor={`${variantGroup.title}-${optIndex}`}
-                          className={`border rounded-md px-3 py-2 text-sm cursor-pointer transition-colors ${
-                            selectedVariants[variantGroup.title] === option.label
-                              ? 'border-blue-500 bg-blue-50 text-blue-700'
-                              : 'border-gray-300 hover:border-gray-400'
-                          }`}
-                        >
-                          {option.label}
-                          {option.price > 0 && ` (+$${option.price})`}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                )}
+             
               </div>
             ))}
             
