@@ -121,7 +121,7 @@ export default function CartPage() {
                   </div>
                   <div className="flex-1"></div>
                   
-
+               </div>
                 <CardContent className="p-0">
                   {items.map((item: OrderItem) => (
                     <div key={item.clientId} className="border-b border-gray-200 last:border-0">
