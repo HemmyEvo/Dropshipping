@@ -21,7 +21,7 @@ export default function ProductGallery({ images }: { images: IIMage[] }) {
   const nextImage = () => mainSwiperRef.current?.slideNext()
   const prevImage = () => mainSwiperRef.current?.slidePrev()
 
-  // Hover zoom state
+  // Hover zoom state (desktop only)
   const [zoomStyle, setZoomStyle] = useState<React.CSSProperties>({})
   const [isZooming, setIsZooming] = useState(false)
 
@@ -31,7 +31,7 @@ export default function ProductGallery({ images }: { images: IIMage[] }) {
     const y = ((e.clientY - top) / height) * 100
     setZoomStyle({
       transformOrigin: `${x}% ${y}%`,
-      transform: 'scale(2)', // zoom factor
+      transform: 'scale(2)', // desktop zoom factor
     })
   }
 
@@ -47,7 +47,7 @@ export default function ProductGallery({ images }: { images: IIMage[] }) {
                 className={`relative mb-2 h-[60px] w-[50px] cursor-pointer border ${
                   selectedImage === img.id ? 'border-blue-500' : 'border-transparent'
                 }`}
-                onClick={() => {
+                onMouseEnter={() => {
                   setSelectedImage(img.id)
                   mainSwiperRef.current?.slideTo(index)
                 }}
@@ -81,13 +81,15 @@ export default function ProductGallery({ images }: { images: IIMage[] }) {
             }}
             thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
             modules={[Navigation, Thumbs, FreeMode, Zoom]}
-            zoom={{ maxRatio: 3 }}
+            zoom={{ maxRatio: 3 }} // ✅ enables pinch-to-zoom on mobile
             className="h-full group"
           >
             {images.map((img, index) => (
-              <SwiperSlide key={img.url}>
+              <SwiperSlide key={img.url} zoom={true}>
+                {/* ✅ Swiper zoom container for mobile pinch-to-zoom */}
                 <div
-                  className="relative w-full h-full lg:h-[389px] cursor-zoom-in overflow-hidden"
+                  className="swiper-zoom-container relative w-full h-full lg:h-[389px] cursor-zoom-in overflow-hidden"
+                  // Desktop hover zoom
                   onMouseMove={handleMouseMove}
                   onMouseEnter={() => setIsZooming(true)}
                   onMouseLeave={() => {
@@ -128,7 +130,7 @@ export default function ProductGallery({ images }: { images: IIMage[] }) {
           </Swiper>
 
           {/* Image Counter */}
-          <div className="absolute bottom-0 z-40 bg-[black]/40 text-white w-full flex justify-end px-4 py-1">
+          <div className="absolute bottom-3 z-40 bg-[black]/40 text-white rounded-lg right-4 flex justify-end px-4 py-1">
             <p>
               {mainSwiperRef.current ? mainSwiperRef.current.activeIndex + 1 : '1'} /{' '}
               {images.length}

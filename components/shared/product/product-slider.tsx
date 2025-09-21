@@ -29,14 +29,14 @@ import { IProductInput } from '@/types'
         }}
         className='w-full'
       >
-        <CarouselContent className='gap-4 px-4 md:px-8 lg:px-12'>
+        <CarouselContent className='gap-4 px-4  md:px-8 lg:px-12'>
           {products.map((product) => (
             <CarouselItem
               key={product.slug}
               className={
                 hideDetails
-                  ? 'border overflow-hidden rounded-3xl pl-0 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5'
-                  : 'bg-primary/10 shadow border overflow-hidden rounded-3xl pl-0 basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4'
+                  ? 'border h-full overflow-hidden rounded-3xl pl-0 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5'
+                  : 'bg-primary/10 h-full shadow border overflow-hidden rounded-3xl pl-0 basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4'
               }
             >
               <ProductCard

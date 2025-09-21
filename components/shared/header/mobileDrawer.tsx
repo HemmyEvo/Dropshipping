@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
@@ -13,24 +14,61 @@ import {
   Shield, 
   HelpCircle,
   Globe,
-  LogOut
+  LogOut,
+  ChevronRight,
+  ChevronDown
 } from 'lucide-react'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { getAllCategories } from '@/lib/actions/product.action'
+
+// Mock data for demonstration
+const mockCategories = [
+  {
+    name: "Electronics",
+    subCategories: ["Phones & Accessories", "Computers & Tablets", "Audio & Headphones", "Wearable Technology"]
+  },
+  {
+    name: "Fashion",
+    subCategories: ["Men's Clothing", "Women's Clothing", "Shoes", "Accessories", "Jewelry"]
+  },
+  {
+    name: "Home & Garden",
+    subCategories: ["Furniture", "Kitchen & Dining", "Home Decor", "Garden & Outdoor"]
+  },
+  {
+    name: "Beauty & Health",
+    subCategories: ["Skincare", "Makeup", "Hair Care", "Personal Care"]
+  }
+];
 
 export default function MobileDrawer() {
   const [open, setOpen] = useState(false)
   const [userStatus, setUserStatus] = useState('guest')
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null)
+  const [categories, setCategories] = useState<any[]>([])
   
   // Simulate user authentication status
   useEffect(() => {
-    // Check if user is logged in (in a real app, this would be from context or store)
     const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true'
     setUserStatus(isLoggedIn ? 'member' : 'guest')
   }, [])
   
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await getAllCategories();
+        setCategories(categoriesData.categories.slice(0, 6));
+      } catch (error) {
+        console.error("Failed to fetch categories, using mock data:", error);
+        setCategories(mockCategories.map(cat => cat.name));
+      }
+    };
+    fetchCategories();
+  }, []);
+
   const handleLogin = () => {
     localStorage.setItem('userLoggedIn', 'true')
     setUserStatus('member')
@@ -43,10 +81,22 @@ export default function MobileDrawer() {
     setOpen(false)
   }
 
+  const toggleCategory = (categoryName: string) => {
+    if (expandedCategory === categoryName) {
+      setExpandedCategory(null);
+    } else {
+      setExpandedCategory(categoryName);
+    }
+  };
+
+  const getSubCategories = (categoryName: string) => {
+    const category = mockCategories.find(cat => cat.name === categoryName);
+    return category ? category.subCategories : [];
+  };
+
   const navigationItems = [
     { title: 'Home', path: '/', icon: null },
     { title: 'Flash Sale', path: '/flash-sale', icon: Clock, badge: 'HOT' },
-    { title: 'Categories', path: '/categories', icon: null },
     { title: 'My Orders', path: '/orders', icon: null },
     { title: 'My Wishlist', path: '/wishlist', icon: Heart },
     { title: 'My Reviews', path: '/reviews', icon: Star },
@@ -117,6 +167,47 @@ export default function MobileDrawer() {
             )}
           </div>
           
+          {/* Categories section */}
+          <div className="bg-white rounded-xl p-2 shadow-sm mb-4">
+            <h3 className="font-semibold px-3 py-2">Categories</h3>
+            <nav className="flex flex-col">
+              {categories.map((category, index) => {
+                const categoryName = typeof category === 'string' ? category : category.name;
+                const hasSubCategories = mockCategories.some(cat => cat.name === categoryName);
+                
+                return (
+                  <div key={index}>
+                    <div 
+                      className="flex items-center px-3 py-3 rounded-lg transition-colors hover:bg-purple-50 group cursor-pointer"
+                      onClick={() => hasSubCategories && toggleCategory(categoryName)}
+                    >
+                      <span className="flex-1 font-medium">{categoryName}</span>
+                      {hasSubCategories && (
+                        <ChevronDown className={`h-4 w-4 transition-transform ${expandedCategory === categoryName ? 'rotate-180' : ''}`} />
+                      )}
+                    </div>
+                    
+                    {expandedCategory === categoryName && hasSubCategories && (
+                      <div className="pl-6 pb-2">
+                        {getSubCategories(categoryName).map((subCategory, idx) => (
+                          <Link
+                            key={idx}
+                            href={`/search?category=${categoryName}&subCategory=${subCategory}`}
+                            className="flex items-center px-3 py-2 rounded-lg transition-colors hover:bg-purple-50 group text-sm"
+                            onClick={() => setOpen(false)}
+                          >
+                            <ChevronRight className="h-3 w-3 mr-2" />
+                            <span>{subCategory}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </nav>
+          </div>
+          
           {/* Navigation items */}
           <div className="bg-white rounded-xl p-2 shadow-sm mb-4">
             <h3 className="font-semibold px-3 py-2">Main Navigation</h3>
@@ -167,24 +258,10 @@ export default function MobileDrawer() {
               })}
             </nav>
           </div>
-          
-          {/* App download promo */}
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl p-4 text-white mb-4">
-            <h3 className="font-bold mb-2">Get the App!</h3>
-            <p className="text-sm mb-3">Enjoy exclusive app-only deals</p>
-            <div className="flex gap-2">
-              <Button variant="secondary" size="sm" className="flex-1 bg-white text-purple-700 hover:bg-gray-100">
-                Google Play
-              </Button>
-              <Button variant="secondary" size="sm" className="flex-1 bg-white text-purple-700 hover:bg-gray-100">
-                App Store
-              </Button>
-            </div>
-          </div>
-          
+     
           {/* Footer */}
           <div className="mt-auto pt-4 text-center text-xs text-gray-500">
-            <p>© 2023 {process.env.NEXT_PUBLIC_APP_NAME || 'ShopApp'}. All rights reserved.</p>
+            <p>© 2025 {process.env.NEXT_PUBLIC_APP_NAME || 'ShopApp'}. All rights reserved.</p>
           </div>
         </div>
       </DrawerContent>

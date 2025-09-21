@@ -38,11 +38,13 @@ const ImageHover = ({
     setIsHovered(false)
     setCurrentHoverIndex(0)
   }
-const HandleAddToWishlist = () => {
-  // Add your logic to add the product to the wishlist here
-  console.log('Added to wishlist');
-  setIsWishlistAdded(prev => !prev);
-}
+
+  const HandleAddToWishlist = () => {
+    // Add your logic to add the product to the wishlist here
+    console.log('Added to wishlist');
+    setIsWishlistAdded(prev => !prev);
+  }
+
   useEffect(() => {
     return () => {
       if (hoverTimeout.current) clearTimeout(hoverTimeout.current)
@@ -52,48 +54,69 @@ const HandleAddToWishlist = () => {
 
   return (
     <div
-      className="relative bg-[black]/20 w-full h-52 "
+      className="relative bg-white w-full h-48 md:h-56 overflow-hidden"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Default image */}
-      {isHovered && (<div className='absolute transition ease-in-out bg-black/30 inset-0 z-20'/>)}
-      {isHovered && (
-        <div className='icon-section-left right-6 absolute z-30 top-3  py-3 px-2 rounded-full bg-black/30 hover:bg-black/50 cursor-pointer'>
-          <Heart onClick={() => HandleAddToWishlist()} className={`'w-6 h-6 text-[#ffffffc9] ${isWishlistAdded ? 'fill-[red]' : '' }`}/>
-          {href && 
-          <Link href={href}>
-          <Eye className='w-6 h-6 text-white mt-2'/>
-          </Link>
-          }
-          
-          </div>
-
-      )}
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className={`object-cover object-center transition-opacity duration-300 ${
-          isHovered && hoverSrcs.length > 0 ? 'opacity-0' : 'opacity-100'
-        }`}
-      />  
+      <Link href={href || '#'} className="block h-full">
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+          className={`object-contain p-3 transition-opacity duration-300 ${
+            isHovered && hoverSrcs.length > 0 ? 'opacity-0' : 'opacity-100'
+          }`}
+        />
+      </Link>
 
       {/* Hover images */}
       {hoverSrcs.map((hoverSrc, index) => (
-        <Image
-          key={index}
-          src={hoverSrc}
-          alt={alt}
-          fill
-          sizes="80vw"
-          className={`absolute inset-0 object-cover object-center transition-opacity duration-300 ${
-            isHovered && index === currentHoverIndex
-              ? 'opacity-100'
-              : 'opacity-0'
-          }`}
-        />
+        <Link key={index} href={href || '#'} className="block h-full">
+          <Image
+            src={hoverSrc}
+            alt={alt}
+            fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            className={`absolute inset-0 object-contain p-3 transition-opacity duration-300 ${
+              isHovered && index === currentHoverIndex
+                ? 'opacity-100'
+                : 'opacity-0'
+            }`}
+          />
+        </Link>
       ))}
+      
+      {/* Action buttons (appear on hover) */}
+      {isHovered && (
+        <div className='absolute z-30 top-2 right-2 flex flex-col gap-2'>
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              HandleAddToWishlist();
+            }}
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors"
+          >
+            <Heart className={`w-4 h-4 ${isWishlistAdded ? 'fill-red-500 text-red-500' : 'text-gray-600'}`}/>
+          </button>
+          
+          {href && (
+            <Link 
+              href={href}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors"
+            >
+              <Eye className='w-4 h-4 text-gray-600'/>
+            </Link>
+          )}
+        </div>
+      )}
+      
+      {/* Hover overlay */}
+      {isHovered && (
+        <div className='absolute inset-0 bg-black/10 z-20'/>
+      )}
     </div>
   )
 }

@@ -306,3 +306,155 @@ export default function ProductGallery({ images }: { images: IIMage[] }) {
 
 
 
+
+
+
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+
+import { Cart, OrderItem } from '@/types'
+import { calcDeliveryDateAndPrice } from '@/lib/actions/order.actions'
+import { shippingInfoSchema } from '@/lib/validator'
+
+// Initial state matches CartSchema
+const initialState: Cart = {
+  items: [],
+  itemsPrice: 0,
+  shippingPrice: 0,
+  totalPrice: 0,
+  paymentMethod: undefined,
+  deliveryDateIndex: undefined,
+  expectedDeliveryDate: undefined,
+  shippingInfo: undefined,
+}
+
+interface CartState {
+  cart: Cart
+  addItem: (item: OrderItem, quantity: number) => Promise<string>
+  updateItem: (item: OrderItem, quantity: number) => Promise<void>
+  removeItem: (item: OrderItem) => Promise<void>
+  setShippingInfo: (info: unknown) => void
+  init: () => void
+}
+function isSameVariant(a?: Record<string, string>, b?: Record<string, string>) {
+  if (!a && !b) return true
+  if (!a || !b) return false
+  const keys = Object.keys(a)
+  if (keys.length !== Object.keys(b).length) return false
+  return keys.every((key) => a[key] === b[key])
+}
+
+const useCartStore = create(
+  persist<CartState>(
+    (set, get) => ({
+      cart: initialState,
+
+      // ✅ Add item to cart
+      addItem: async (item, quantity) => {
+        const { items, shippingInfo, deliveryDateIndex } = get().cart
+        const existItem = items.find(
+        (x) => x.product === item.product && isSameVariant(
+        Array.isArray(x.variant) ? Object.fromEntries(x.variant.map((v: any) => [v.title, v.option.label])) : x.variant,
+        Array.isArray(item.variant) ? Object.fromEntries(item.variant.map((v: any) => [v.title, v.option.label])) : item.variant
+        )
+        )
+
+        console.log('existItem', existItem);
+
+        if (existItem) {
+          if (existItem.countInStock < quantity + existItem.quantity) {
+            throw new Error('Not enough items in stock')
+          }
+        } else {
+          if (item.countInStock < quantity) {
+            throw new Error('Not enough items in stock')
+          }
+        }
+
+        const updatedCartItems = existItem
+          ? items.map((x) =>
+              x.product === item.product && x.variant === item.variant
+                ? { ...existItem, quantity: existItem.quantity + quantity }
+                : x
+            )
+          : [...items, { ...item, quantity }]
+
+        const updatedCart = await calcDeliveryDateAndPrice({
+          items: updatedCartItems,
+          deliveryDateIndex,
+          shippingInfo,
+        })
+
+        set({ cart: updatedCart })
+
+        const foundItem = updatedCartItems.find(
+          (x) => x.product === item.product && x.variant === item.variant
+        )
+        return foundItem ? foundItem.clientId : ''
+      },
+
+      // ✅ Update item quantity
+      updateItem: async (item, quantity) => {
+        const { items, shippingInfo, deliveryDateIndex } = get().cart
+        const existItem = items.find(
+          (x) => x.product === item.product && x.variant === item.variant
+        )
+        if (!existItem) return
+
+        if (existItem.countInStock < quantity) {
+          throw new Error('Not enough items in stock')
+        }
+
+        const updatedCartItems = items.map((x) =>
+          x.product === item.product && x.variant === item.variant
+            ? { ...existItem, quantity }
+            : x
+        )
+
+        const updatedCart = await calcDeliveryDateAndPrice({
+          items: updatedCartItems,
+          deliveryDateIndex,
+          shippingInfo,
+        })
+
+        set({ cart: updatedCart })
+      },
+
+      // ✅ Remove item from cart
+      removeItem: async (item) => {
+        const { items, shippingInfo, deliveryDateIndex } = get().cart
+
+        const updatedCartItems = items.filter(
+          (x) => !(x.product === item.product && x.variant === item.variant)
+        )
+
+        const updatedCart = await calcDeliveryDateAndPrice({
+          items: updatedCartItems,
+          deliveryDateIndex,
+          shippingInfo,
+        })
+
+        set({ cart: updatedCart })
+      },
+
+      // ✅ Set shipping info with validation
+      setShippingInfo: (info) => {
+        const parsed = shippingInfoSchema.parse(info)
+        set({
+          cart: {
+            ...get().cart,
+            shippingInfo: parsed,
+          },
+        })
+      },
+
+      // ✅ Reset cart
+      init: () => set({ cart: initialState }),
+    }),
+    { name: 'cart-store' }
+  )
+)
+
+export default useCartStore
