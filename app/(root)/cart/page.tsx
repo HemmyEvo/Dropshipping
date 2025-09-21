@@ -191,33 +191,61 @@ export default function CartPage() {
                               </span>
                             </div>
 
-                            {/* Mobile price */}
-                            <div className="mt-2 sm:hidden">
-                              <div className="flex justify-between items-center">
-                                <div className="text-sm font-medium text-gray-800">
+                            {/* Mobile price and quantity */}
+                            <div className="mt-2 flex flex-col sm:hidden gap-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm font-medium text-gray-800">Price:</span>
+                                <span className="text-sm font-medium text-gray-800">
                                   <ProductPrice price={item.price} plain />
+                                </span>
+                              </div>
+                              
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm font-medium text-gray-800">Quantity:</span>
+                                <div className="w-20">
+                                  <Select
+                                    value={item.quantity.toString()}
+                                    onValueChange={(value) =>
+                                      updateQuantity(item.clientId, Number(value))
+                                    }
+                                  >
+                                    <SelectTrigger className="h-8 w-full rounded border-gray-300 text-xs">
+                                      <SelectValue>{item.quantity}</SelectValue>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {Array.from({ length: item.countInStock }).map((_, i) => (
+                                        <SelectItem key={i + 1} value={`${i + 1}`}>
+                                          {i + 1}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
                                 </div>
-                                <div className="text-sm font-medium text-orange-500">
+                              </div>
+                              
+                              <div className="flex items-center justify-between border-t pt-2">
+                                <span className="text-sm font-medium text-gray-800">Subtotal:</span>
+                                <span className="text-sm font-medium text-orange-500">
                                   <ProductPrice price={item.price * item.quantity} plain />
-                                </div>
+                                </span>
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-8">
-                          <div className="text-sm md:text-base font-medium text-gray-800 w-12 sm:w-16 text-right hidden sm:block">
+                        <div className="hidden sm:flex items-center space-x-4 md:space-x-8">
+                          <div className="text-sm md:text-base font-medium text-gray-800 w-16 text-right">
                             <ProductPrice price={item.price} plain />
                           </div>
 
-                          <div className="w-16 sm:w-20 md:w-24">
+                          <div className="w-20 md:w-24">
                             <Select
                               value={item.quantity.toString()}
                               onValueChange={(value) =>
                                 updateQuantity(item.clientId, Number(value))
                               }
                             >
-                              <SelectTrigger className="h-8 w-full rounded border-gray-300 text-xs sm:text-sm">
+                              <SelectTrigger className="h-8 w-full rounded border-gray-300 text-sm">
                                 <SelectValue>Qty: {item.quantity}</SelectValue>
                               </SelectTrigger>
                               <SelectContent>
@@ -230,7 +258,7 @@ export default function CartPage() {
                             </Select>
                           </div>
 
-                          <div className="text-sm md:text-base font-medium text-orange-500 w-14 sm:w-16 md:w-20 text-right hidden sm:block">
+                          <div className="text-sm md:text-base font-medium text-orange-500 w-20 text-right">
                             <ProductPrice price={item.price * item.quantity} plain />
                           </div>
 
@@ -241,7 +269,20 @@ export default function CartPage() {
                             onClick={() => removeItem(item.clientId)}
                             aria-label="Remove item"
                           >
-                            <i className="fas fa-trash-alt text-xs sm:text-sm"></i>
+                            <i className="fas fa-trash-alt text-sm"></i>
+                          </Button>
+                        </div>
+
+                        {/* Mobile delete button */}
+                        <div className="sm:hidden ml-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-gray-400 hover:text-orange-500 hover:bg-orange-50 rounded-full h-8 w-8 p-0"
+                            onClick={() => removeItem(item.clientId)}
+                            aria-label="Remove item"
+                          >
+                            <i className="fas fa-trash-alt text-sm"></i>
                           </Button>
                         </div>
                       </div>
@@ -252,7 +293,7 @@ export default function CartPage() {
             )}
           </div>
 
-          {/* Order Summary */}
+          {/* Order Summary - Fixed alignment */}
           {items.length > 0 && (
             <div className="lg:col-span-1">
               <Card className="bg-white rounded-md shadow-sm border border-gray-200 sticky top-4 sm:top-6">
