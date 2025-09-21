@@ -120,11 +120,7 @@ export default function CartPage() {
                     <span className="ml-2 text-sm text-gray-700 hidden xs:inline">Select all</span>
                   </div>
                   <div className="flex-1"></div>
-                  <div className="text-sm text-gray-600 hidden md:block">Unit Price</div>
-                  <div className="text-sm text-gray-600 ml-4 md:ml-8 lg:ml-16">Quantity</div>
-                  <div className="text-sm text-gray-600 ml-4 md:ml-8 lg:ml-16 hidden sm:block">Subtotal</div>
-                  <div className="text-sm text-gray-600 ml-4 md:ml-8 lg:ml-16 hidden xs:block">Action</div>
-                </div>
+                  
 
                 <CardContent className="p-0">
                   {items.map((item: OrderItem) => (
