@@ -22,7 +22,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { getAllCategories } from '@/lib/actions/product.action'
+import { getAllNav } from '@/lib/actions/product.action'
 
 interface Category {
   name: string;
@@ -48,7 +48,7 @@ export default function MobileDrawer() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const categoriesData = await getAllCategories();
+        const categoriesData = await getAllNav();
         
         // Transform the data to match the expected structure
         const transformedCategories = categoriesData.categories.slice(0, 6).map((category: any) => ({

@@ -25,6 +25,48 @@ export async function getAllCategories() {
   };
 }
 
+export async function getAllNav() {
+  await connectToDatabase();
+  
+  // Get all products with published status
+  const products = await Product.find({ isPublished: true }).select('category');
+  
+  // Group by category name and collect all subcategories
+  const categoryMap = new Map();
+  
+  products.forEach(product => {
+    if (product.category && product.category.name) {
+      const categoryName = product.category.name;
+      
+      if (!categoryMap.has(categoryName)) {
+        categoryMap.set(categoryName, {
+          name: categoryName,
+          subcategories: new Set()
+        });
+      }
+      
+      // Add subcategories if they exist
+      if (product.category.subcategories && Array.isArray(product.category.subcategories)) {
+        product.category.subcategories.forEach((subcat:any) => {
+          if (subcat) {
+            categoryMap.get(categoryName).subcategories.add(subcat);
+          }
+        });
+      }
+    }
+  });
+  
+  // Convert to array and transform subcategories from Set to Array
+  const categories = Array.from(categoryMap.values()).map(category => ({
+    name: category.name,
+    subcategories: Array.from(category.subcategories)
+  }));
+  
+  return {
+    categories: JSON.parse(JSON.stringify(categories))
+  };
+}
+
 export async function getProductsByTag({
   tag,
   limit = 10,
