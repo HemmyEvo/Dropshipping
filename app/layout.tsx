@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css"
 import localFont from 'next/font/local'
 import { APP_DESCRIPTION, APP_NAME, APP_SLOGAN } from '@/lib/constants'
+import { Toaster } from "@/components/ui/sonner";
 const integralCF = localFont({
   src:[
     {path:"../assets/fonts/Fontspring-DEMO-integralcf-medium.otf",
@@ -38,9 +39,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    
       <body
         className={`${integralCF.variable} ${floryanna.variable} bg-[white] antialiased`}
       >
+        <Toaster position="top-right" richColors />
         {children}
       </body>
     </html>

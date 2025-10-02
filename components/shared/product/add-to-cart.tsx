@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+
 import { useCartStore } from '@/hooks/use-cart-store'
 import { useToast } from '@/hooks/use-toast'
 import { OrderItem } from '@/types'
@@ -47,15 +48,6 @@ export default function AddToCart({
       } else {
         toast({
           description: 'Added to Cart',
-          action: (
-            <Button
-              onClick={() => {
-                router.push('/cart')
-              }}
-            >
-              Go to Cart
-            </Button>
-          ),
         })
       }
     } catch (error: any) {

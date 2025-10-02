@@ -66,7 +66,7 @@ export default function ProductGallery({ images }: { images: IIMage[] }) {
 
       {/* Main Image */}
       <div className="main-image lg:w-20 flex-1 lg:order-2 bg-[black]/20">
-        <div className="wrapper relative h-[380px] sm:h-[60vh] md:h-full w-full">
+        <div className="wrapper relative h-[380px] sm:h-[60vh] lg:h-full w-full">
           <Swiper
             onSwiper={(swiper) => (mainSwiperRef.current = swiper)}
             onSlideChange={(swiper) => {

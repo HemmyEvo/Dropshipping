@@ -174,7 +174,7 @@ export async function getRelatedProductsByCategory({
   }
 }
 
-// Get products by subcategory
+
 // Get products by subcategory
 export async function getProductsBySubCategory({
   subCategory,
@@ -204,3 +204,4 @@ export async function getProductsBySubCategory({
     totalPages: Math.ceil(productsCount / limit),
   }
 }
+

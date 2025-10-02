@@ -32,7 +32,7 @@ export default async function ProductDetails({
       <ProductClient
         product={product}
         relatedProducts={relatedProducts.data}
-        searchParams={searchParams}
+        
       />
     );
   } catch (error) {
